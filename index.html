@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>นวัตกรรมเว็บแอปพลิเคชันเกมเชิงโต้ตอบด้วย AI</title>
+    <link rel="icon" type="image/png" href="https://nonthaphathr.github.io/uploadimg/logowebapp.png">
+    <link rel="apple-touch-icon" href="https://nonthaphathr.github.io/uploadimg/logowebapp.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: 
+                linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(26, 26, 26, 0.9) 50%, rgba(0, 0, 0, 0.85) 100%),
+                url('https://nonthaphathr.github.io/uploadimg/bg2.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(218, 165, 32, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(184, 134, 11, 0.05) 0%, transparent 50%);
+            animation: backgroundPulse 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Logo section with glow effect */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #000000;
+            padding: 8px;
+            border: 4px solid #DAA520;
+            box-shadow: 
+                0 0 30px rgba(218, 165, 32, 0.8),
+                0 0 60px rgba(255, 215, 0, 0.5),
+                0 0 90px rgba(184, 134, 11, 0.3);
+            animation: logoGlow 3s ease-in-out infinite, float 6s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes logoGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 30px rgba(218, 165, 32, 0.8),
+                    0 0 60px rgba(255, 215, 0, 0.5),
+                    0 0 90px rgba(184, 134, 11, 0.3);
+            }
+            50% {
+                box-shadow: 
+                    0 0 40px rgba(218, 165, 32, 1),
+                    0 0 80px rgba(255, 215, 0, 0.7),
+                    0 0 120px rgba(184, 134, 11, 0.5);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Title section */
+        .title-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .main-title {
+            font-family: 'Prompt', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFD700 0%, #DAA520 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            text-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+        }
+
+        .developer-info {
+            font-size: 1.1rem;
+            color: #DAA520;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .school-info {
+            font-size: 0.95rem;
+            color: #B8860B;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Links container */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Link card */
+        .link-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(51, 51, 51, 0.8) 100%);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 22px 28px;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.6s ease-out backwards;
+        }
+
+        .link-card:nth-child(1) { animation-delay: 0.7s; }
+        .link-card:nth-child(2) { animation-delay: 0.8s; }
+        .link-card:nth-child(3) { animation-delay: 0.9s; }
+        .link-card:nth-child(4) { animation-delay: 1s; }
+        .link-card:nth-child(5) { animation-delay: 1.1s; }
+        .link-card:nth-child(6) { animation-delay: 1.2s; }
+        .link-card:nth-child(7) { animation-delay: 1.3s; }
+        .link-card:nth-child(8) { animation-delay: 1.4s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .link-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #DAA520;
+            box-shadow: 
+                0 10px 40px rgba(218, 165, 32, 0.3),
+                0 0 30px rgba(255, 215, 0, 0.2),
+                inset 0 0 20px rgba(218, 165, 32, 0.1);
+        }
+
+        .link-card:hover::before {
+            opacity: 1;
+        }
+
+        .link-card:hover::after {
+            left: 100%;
+        }
+
+        .link-text {
+            font-family: 'Prompt', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-icon {
+            font-size: 1.3rem;
+            color: #DAA520;
+            transition: transform 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-card:hover .link-icon {
+            transform: translateX(8px);
+            color: #FFD700;
+        }
+
+        /* Number badge */
+        .link-number {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            background: linear-gradient(135deg, #DAA520, #FFD700);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #000;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
+            z-index: 2;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #B8860B;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            animation: fadeIn 1.5s ease-out 1.5s both;
+        }
+
+        /* Sparkle effect */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        /* Floating Particles */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #FFD700, #DAA520);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px #FFD700;
+            animation: floatParticle 15s infinite ease-in-out;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 16s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 13s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 15s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 11s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 2.5s; animation-duration: 14s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 4.5s; animation-duration: 12s; }
+        .particle:nth-child(9) { left: 15%; animation-delay: 1.5s; animation-duration: 13s; }
+        .particle:nth-child(10) { left: 85%; animation-delay: 3.5s; animation-duration: 15s; }
+        .particle:nth-child(11) { left: 25%; animation-delay: 0.5s; animation-duration: 16s; }
+        .particle:nth-child(12) { left: 75%; animation-delay: 5.5s; animation-duration: 11s; }
+
+        /* Marquee Text */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(90deg, 
+                rgba(218, 165, 32, 0.1) 0%, 
+                rgba(255, 215, 0, 0.15) 50%, 
+                rgba(218, 165, 32, 0.1) 100%);
+            border-top: 1px solid rgba(218, 165, 32, 0.3);
+            border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+            padding: 12px 0;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 
+                0 0 20px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .marquee-text {
+            font-family: 'Prompt', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FFD700;
+            white-space: nowrap;
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+            text-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.8),
+                0 0 20px rgba(218, 165, 32, 0.6);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee-text::before {
+            content: '✨ ';
+        }
+
+        .marquee-text::after {
+            content: ' ✨';
+        }
+
+        /* Visitor Counter */
+        .visitor-counter {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(51, 51, 51, 0.7));
+            border: 2px solid rgba(218, 165, 32, 0.3);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 30px rgba(218, 165, 32, 0.2),
+                inset 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+
+        .counter-title {
+            font-family: 'Prompt', sans-serif;
+            font-size: 1rem;
+            color: #DAA520;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .counter-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .counter-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .logo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .main-title {
+                font-size: 1.4rem;
+            }
+
+            .developer-info {
+                font-size: 1rem;
+            }
+
+            .school-info {
+                font-size: 0.85rem;
+            }
+
+            .marquee-text {
+                font-size: 1rem;
+            }
+
+            .link-card {
+                padding: 18px 22px;
+            }
+
+            .link-text {
+                font-size: 1rem;
+            }
+
+            .link-icon {
+                font-size: 1.1rem;
+            }
+
+            .counter-title {
+                font-size: 0.9rem;
+            }
+
+            .counter-icon {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.2rem;
+            }
+
+            .marquee-text {
+                font-size: 0.9rem;
+            }
+
+            .link-card {
+                padding: 16px 20px;
+            }
+
+            .link-text {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <!-- Logo Section -->
+        <div class="logo-container">
+            <img src="https://nonthaphathr.github.io/uploadimg/logowebapp.png" alt="Logo" class="logo">
+        </div>
+
+        <!-- Title Section -->
+        <div class="title-section">
+            <h1 class="main-title">นวัตกรรมเว็บแอปพลิเคชันเกมเชิงโต้ตอบด้วยปัญญาประดิษฐ์เพื่อส่งเสริมทักษะการแต่งอินทรวิเชียรฉันท์ 11</h1>
+            <p class="developer-info">พัฒนาโดย ครูนนทพัทธ์ หิรัญเรือง</p>
+            <p class="school-info">โรงเรียนกระดุมทองวิทยา สังกัดองค์การบริหารส่วนจังหวัดศรีสะเกษ</p>
+        </div>
+
+        <!-- Marquee Text -->
+        <div class="marquee-container">
+            <div class="marquee-text">เชิญเลือกเว็บแอปพลิเคชันที่ต้องการเยี่ยมชม</div>
+        </div>
+
+        <!-- Links Container -->
+        <div class="links-container">
+            <a href="https://nonthaphathr.github.io/karulahugame1/" class="link-card" target="_blank">
+                <span class="link-number">1</span>
+                <span class="link-text">เกมตอบคำถามแยกแยะครุ-ลหุ (Quiz Game)</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/karulahugame2/" class="link-card" target="_blank">
+                <span class="link-number">2</span>
+                <span class="link-text">เกมฝ่าพายุครุ-ลหุ</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/karulahugame3/" class="link-card" target="_blank">
+                <span class="link-number">3</span>
+                <span class="link-text">อินทรวิเชียรเกม : ฟาดสายฟ้าครุ-ลหุ</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/dragdropchunt/" class="link-card" target="_blank">
+                <span class="link-number">4</span>
+                <span class="link-text">เกมลาก-วาง สร้างอินทรวิเชียรฉันท์ 11</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/intharavichian11/" class="link-card" target="_blank">
+                <span class="link-number">5</span>
+                <span class="link-text">เครื่องมือช่วยแต่งอินทรวิเชียรฉันท์ 11</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/intharavichian11check/" class="link-card" target="_blank">
+                <span class="link-number">6</span>
+                <span class="link-text">ระบบตรวจทานอินทรวิเชียรฉันท์ 11</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/Poetryexhibition1-/" class="link-card" target="_blank">
+                <span class="link-number">7</span>
+                <span class="link-text">ลานนิทรรศการแสดงผลงานออนไลน์ (Online Exhibition Hall)</span>
+                <span class="link-icon">→</span>
+            </a>
+
+            <a href="https://nonthaphathr.github.io/datalahu/" class="link-card" target="_blank">
+                <span class="link-number">8</span>
+                <span class="link-text">คลังคำลหุ</span>
+                <span class="link-icon">→</span>
+            </a>
+        </div>
+
+        <!-- Visitor Counter -->
+        <div class="visitor-counter">
+            <div class="counter-title">👥 จำนวนผู้เข้าชม</div>
+            <div class="counter-wrapper">
+                <span class="counter-icon">📊</span>
+                <a href="https://www.hitwebcounter.com" target="_blank">
+                    <img src="https://hitwebcounter.com/counter/counter.php?page=14634382&style=0032&nbdigits=7&type=page&initCount=0" 
+                         title="Visitor Counter" 
+                         alt="Visitor Counter"
+                         border="0" 
+                         style="border-radius: 8px; box-shadow: 0 0 15px rgba(218, 165, 32, 0.5);" />
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2025 นวัตกรรมอินทรวิเชียรฉันท์ 11 | Powered by AI</p>
+        </div>
+    </div>
+
+    <script>
+        // Create sparkle effect on mouse move
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.95) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                sparkle.style.width = '3px';
+                sparkle.style.height = '3px';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.background = '#FFD700';
+                sparkle.style.boxShadow = '0 0 10px #FFD700';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1500);
+            }
+        });
+
+        // Add hover sound effect simulation through visual feedback
+        document.querySelectorAll('.link-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            });
+        });
+    </script>
+</body>
+</html>
